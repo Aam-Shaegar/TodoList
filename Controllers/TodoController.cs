@@ -10,6 +10,14 @@ namespace TodoApi
     {
         private static List<TodoItem> _todos = new List<TodoItem>();
 
+        private void Reindex()
+        {
+            for(int i=0; i< _todos.Count; i++)
+            {
+                _todos[i].Id = i + 1;
+            }
+        }
+
         [HttpGet]
         public IActionResult GetTodos()
         {
@@ -50,8 +58,10 @@ namespace TodoApi
             if (ThisId < _todos.Count)
             {
                 _todos.RemoveAt(ThisId-1);
-                return Ok(new { id = _todos.Count });
+                Reindex();
+                return Ok( "deleted");
             }
+
             else return NotFound();
         }
     }
